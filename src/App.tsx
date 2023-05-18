@@ -4,10 +4,6 @@ import './App.css';
 import ReminderList from './components/Reminder';
 import Reminder from './interfaces/Reminder';
 
-// const reminders: Reminder[] = [{
-//   id: 1, title: "Reminder One"
-// }];
-
 function App() {
   const [reminders, setReminders] = useState<Reminder[]>([{
     id: 1, title: "Reminder One"
@@ -22,9 +18,8 @@ function App() {
           "Authorization": "Bearer <token>"
         }
       }
-      const resonse = await fetch("https://jsonplaceholder.typicode.com/todos");
+      const resonse = await fetch("https://jsonplaceholder.typicode.com/todos", options);
       const todos = await resonse.json();
-      // console.log("todso", todos[0]);
 
       setReminders(todos);
     }
@@ -32,9 +27,14 @@ function App() {
     runAsync();
   }, []);
 
+  const removeReminder = (id: number) => {
+    console.log("remove", id);
+    setReminders(reminders.filter(rem => rem.id !== id));
+  };
+
   return (
     <div className="App">
-      <ReminderList items={reminders}/>
+      <ReminderList items={reminders} removeReminder={removeReminder}/>
     </div>
   );
 }
