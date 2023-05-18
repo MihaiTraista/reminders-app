@@ -1,16 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ReminderList from './components/Reminder';
+import Reminder from './interfaces/Reminder';
+
+// const reminders: Reminder[] = [{
+//   id: 1, title: "Reminder One"
+// }];
 
 function App() {
+  const [reminders, setReminders] = useState<Reminder[]>([{
+    id: 1, title: "Reminder One"
+  }]);
 
-  const [show, setShow] = useState<boolean>(false);
+  useEffect(() => {
+    const runAsync = async () => {
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer <token>"
+        }
+      }
+      const resonse = await fetch("https://jsonplaceholder.typicode.com/todos");
+      const todos = await resonse.json();
+      // console.log("todso", todos[0]);
+
+      setReminders(todos);
+    }
+
+    runAsync();
+  }, []);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <p>{show ? "show" : "no show"}</p>
-      </header>
+      <ReminderList items={reminders}/>
     </div>
   );
 }

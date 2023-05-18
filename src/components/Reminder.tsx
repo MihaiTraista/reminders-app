@@ -5,7 +5,9 @@ interface ReminderListProps {
 }
 
 export default function ReminderList({ items }: ReminderListProps): JSX.Element {
-  return <div>
-    <h1>reminder</h1>
-  </div>
+  return (
+    <ul>
+      {items.map(item => <li key={item.id}>{item.title}</li>)}
+    </ul>
+  )
 }
