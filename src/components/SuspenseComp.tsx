@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+
 interface MessageType { data: string; };
 
 function superLong (): Promise<MessageType> {
@@ -29,6 +30,15 @@ export default function SuspenseComp({  }){
 
   return <div>
     <h1>Suspense Comp</h1>
+    
+    <button onClick={() => {
+
+      // console.log(typeof this);
+
+      import("../helpers/mathfunctions.js").then(module => {
+        alert(module.sum(2, 5));
+      })
+    }}>call sum</button>
     {/* {lateMessage ? lateMessage.data : "waiting"} */}
     {/* <p>{lateMessage}</p> */}
   </div>
