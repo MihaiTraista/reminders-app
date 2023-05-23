@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import ReminderList from './components/Reminder';
+import ReminderList from './components/ReminderList';
 import Reminder from './interfaces/Reminder';
+import SuspenseComp from './components/SuspenseComp';
 
 function App() {
   const [reminders, setReminders] = useState<Reminder[]>([{
@@ -19,7 +20,8 @@ function App() {
         }
       }
       const resonse = await fetch("https://jsonplaceholder.typicode.com/todos", options);
-      const todos = await resonse.json();
+      let todos = await resonse.json();
+      todos = todos.slice(0, 20)
 
       setReminders(todos);
     }
@@ -34,6 +36,11 @@ function App() {
 
   return (
     <div className="App">
+
+      <Suspense>
+        <SuspenseComp />
+      </Suspense>
+
       <ReminderList items={reminders} removeReminder={removeReminder}/>
     </div>
   );
